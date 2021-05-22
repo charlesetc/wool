@@ -14,5 +14,6 @@ let () =
       let tmux_name =
         result |> String.substr_replace_all ~pattern:"." ~with_:"-"
       in
-      process "tmux" [ "rename-session"; tmux_name ] |> run;
+      if Option.is_some (Sys.getenv "TMUX") then
+        process "tmux" [ "rename-session"; tmux_name ] |> run;
       print_endline (Filename.concat basedir result)
